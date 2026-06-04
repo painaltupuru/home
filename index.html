@@ -1,5 +1,188 @@
-<html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理科(光)クイズ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .check-all {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .check-all:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: none;
+        }
+
+        .correct {
+            background-color: #e0ffe0;
+            color: #155724;
+        }
+
+        .incorrect {
+            background-color: #ffe0e0;
+            color: #721c24;
+        }
+    </style>
+</head>
 <body>
-<h1>初めのファイル</h1>
+
+    <h1>理科(光)用語クイズ</h1>
+    <div class="quiz-container">
+        <div class="question">自ら光を出しているものを？</div>
+        <input type="text" class="answer-input" id="q1">
+        <div id="result1" class="result"></div>
+
+        <div class="question">光がまっすぐ進むことを？</div>
+        <input type="text" class="answer-input" id="q2">
+        <div id="result2" class="result"></div>
+
+        <div class="question">光が跳ね返る現象を？</div>
+        <input type="text" class="answer-input" id="q3">
+        <div id="result3" class="result"></div>
+
+        <div class="question">鏡に映った物体を？</div>
+        <input type="text" class="answer-input" id="q4">
+        <div id="result4" class="result"></div>
+
+        <div class="question">いろんな方向に反射することを？</div>
+        <input type="text" class="answer-input" id="q5">
+        <div id="result5" class="result"></div>
+
+        <div class="question">光が折れ曲がって進む現象を？</div>
+        <input type="text" class="answer-input" id="q6">
+        <div id="result6" class="result"></div>
+
+        <div class="question">すべて反射する現象を？</div>
+        <input type="text" class="answer-input" id="q7">
+        <div id="result7" class="result"></div>
+
+        <div class="question">中央が厚く膨らんだレンズを？</div>
+        <input type="text" class="answer-input" id="q8">
+        <div id="result8" class="result"></div>
+
+        <div class="question">凸レンズを通って1点に集まる点のことを？</div>
+        <input type="text" class="answer-input" id="q9">
+        <div id="result9" class="result"></div>
+
+        <div class="question">凸レンズの中心から(9)までの距離を？</div>
+        <input type="text" class="answer-input" id="q10">
+        <div id="result10" class="result"></div>
+
+        <div class="question">光が実際に集まってできる像を？</div>
+        <input type="text" class="answer-input" id="q11">
+        <div id="result11" class="result"></div>
+
+        <div class="question">物体のないところから光が出ているように見える像を？</div>
+        <input type="text" class="answer-input" id="q12">
+        <div id="result12" class="result"></div>
+
+        <div class="question">色合いを感じない光を？</div>
+        <input type="text" class="answer-input" id="q13">
+        <div id="result13" class="result"></div>
+
+        <div class="question">目に見える光を？</div>
+        <input type="text" class="answer-input" id="q14">
+        <div id="result14" class="result"></div>
+
+
+        <button class="check-all" onclick="checkAllAnswers()">全ての問題をチェックする</button>
+    </div>
+
+    <script>
+        function checkAnswer(questionId, correctAnswer, resultId) {
+            let userAnswer = document.getElementById(questionId).value.trim();
+            let resultDiv = document.getElementById(resultId);
+
+            if (userAnswer === correctAnswer) {
+                resultDiv.className = "result correct";
+                resultDiv.innerHTML = "正解です！";
+            } else {
+                resultDiv.className = "result incorrect";
+                resultDiv.innerHTML = `不正解です。正解は「${correctAnswer}」です。`;
+            }
+
+            resultDiv.style.display = "block";
+        }
+
+        function checkAllAnswers() {
+            const questions = [
+                { id: 'q1', answer: '光源', resultId: 'result1' },
+                { id: 'q2', answer: '光の直進', resultId: 'result2' },
+                { id: 'q3', answer: '光の反射', resultId: 'result3' },
+                { id: 'q4', answer: '像', resultId: 'result4' },
+                { id: 'q5', answer: '乱反射', resultId: 'result5' },
+                { id: 'q6', answer: '光の屈折', resultId: 'result6' },
+                { id: 'q7', answer: '全反射', resultId: 'result7' },
+                { id: 'q8', answer: '凸レンズ', resultId: 'result8' },
+                { id: 'q9', answer: '焦点', resultId: 'result9' },
+                { id: 'q10', answer: '焦点距離', resultId: 'result10' },
+                { id: 'q11', answer: '実像', resultId: 'result11' },
+                { id: 'q12', answer: '虚像', resultId: 'result12' },
+                { id: 'q13', answer: '白色光', resultId: 'result13' },
+                { id: 'q14', answer: '可視光線', resultId: 'result14' }
+            ];
+
+            questions.forEach(question => {
+                checkAnswer(question.id, question.answer, question.resultId);
+            });
+        }
+    </script>
 </body>
 </html>
