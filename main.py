@@ -21,7 +21,6 @@ def run_web_server():
 # 2. AIに返信を考えてもらう関数 (Groq API)
 # ==========================================
 def ask_ai(user_message):
-    # 【修正】ここに直接 gsk_... を書くのではなく、環境変数から読み込みます
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
         return "GroqのAPIキーが設定されていません。"
@@ -31,12 +30,14 @@ def ask_ai(user_message):
         'Authorization': f'Bearer {api_key}',
         'Content-Type': 'application/json'
     }
+    
+    # モデル名を最新の安定版に指定
     payload = {
         "model": "llama-3.3-70b-specdec",
         "messages": [
             {
                 "role": "system", 
-                "content": "あなたはチャットBotの相棒です。フランクで親しみやすい中学生の友達のような口調で、日本語で短く返信してね。"
+                "content": "あなたはチャットBotの相棒です。フランクな中学生の友達のような口調で、日本語で短く返信してね。"
             },
             {
                 "role": "user", 
@@ -47,10 +48,17 @@ def ask_ai(user_message):
     
     try:
         response = requests.post(url, headers=headers, json=payload).json()
-        ai_reply = response['choices'][0]['message']['content']
-        return ai_reply
+        
+        # 【ここを改造！】エラーがあればその理由をそのままチャットに返す
+        if 'choices' in response:
+            return response['choices'][0]['message']['content']
+        elif 'error' in response:
+            return f"🛑 Groqからのエラー： {response['error']['message']}"
+        else:
+            return f"❓ 予想外のデータ： {response}"
+            
     except Exception as e:
-        return f"AIがちょっと照れてるみたい（エラー）: {e}"
+        return f"💥 通信自体に失敗したよ： {e}"
 
 # ==========================================
 # 3. ZulipChatのBotメイン処理
