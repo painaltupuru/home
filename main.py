@@ -5,7 +5,7 @@ from flask import Flask
 import zulip
 
 # ==========================================
-# 1. Render居眠り防止用のWebサーバー設定 (Flask)
+# 1. Render常駐用のWebサーバー (Flask)
 # ==========================================
 app = Flask(__name__)
 
@@ -31,8 +31,8 @@ def ask_ai(user_message):
         'Content-Type': 'application/json'
     }
     
-    # モデル名を最新の安定版に指定
-     payload = {
+    # 2026年最新の安定モデル
+    payload = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
             {
@@ -49,7 +49,6 @@ def ask_ai(user_message):
     try:
         response = requests.post(url, headers=headers, json=payload).json()
         
-        # 【ここを改造！】エラーがあればその理由をそのままチャットに返す
         if 'choices' in response:
             return response['choices'][0]['message']['content']
         elif 'error' in response:
@@ -65,8 +64,6 @@ def ask_ai(user_message):
 # ==========================================
 class ZulipBot:
     def __init__(self):
-        # 【超重要・修正】os.environ.get("この中身") は、登録した名前（キー名）を書きます
-        # 直接アドレスやURLを入れるとエラーになって動かなくなります
         self.bot_email = os.environ.get("ZULIP_BOT_EMAIL")
         
         self.client = zulip.Client(
@@ -81,9 +78,9 @@ class ZulipBot:
             return
 
         content = msg["content"].strip()
-        print(f"メッセージを受信: {content}")
-
-        # Groq AIに返信を考えてもらう
+        print(f"メッセージを受信しました: {content}")
+        
+        # すべてのメッセージをAIに渡す（天気などの条件分岐を完全に削除）
         reply = ask_ai(content)
 
         request = {
