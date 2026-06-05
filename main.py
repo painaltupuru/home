@@ -32,8 +32,8 @@ def ask_ai(user_message):
     }
     
     # モデル名を最新の安定版に指定
-    payload = {
-        "model": "llama-3.3-70b-specdec",
+     payload = {
+        "model": "llama-3.3-70b-versatile",
         "messages": [
             {
                 "role": "system", 
